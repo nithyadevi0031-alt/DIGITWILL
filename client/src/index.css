@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@theme {
+  --color-royal-purple: #731BB8;
+  --color-bright-violet: #9A2CF2;
+  --color-deep-purple: #4C0F7A;
+  --color-dark-plum: #32004A;
+  --color-burnt-orange: #D95F30;
+  --color-warm-beige: #D2C8BC;
+  --color-soft-lavender: #8D89AF;
+  --color-charcoal-black: #221B2A;
+  --color-dark-purple-black: #2B103D;
+}
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #221B2A;
+  color: #FFFFFF;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #221B2A;
+  color: #FFFFFF;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom Glassmorphism Utility Classes */
+.glass-card {
+  background: rgba(76, 15, 122, 0.30);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  background: rgba(76, 15, 122, 0.45);
+  border-color: rgba(154, 44, 242, 0.4);
+  box-shadow: 0 15px 35px rgba(154, 44, 242, 0.25);
+  transform: translateY(-3px);
+}
+
+.glass-nav {
+  background: rgba(43, 16, 61, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #731BB8 0%, #9A2CF2 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(154, 44, 242, 0.35);
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 25px rgba(154, 44, 242, 0.55);
+  transform: scale(1.02);
+}
+
+.btn-secondary {
+  background: #D95F30;
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(217, 95, 48, 0.3);
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background: #E56E3F;
+  box-shadow: 0 6px 20px rgba(217, 95, 48, 0.5);
+  transform: scale(1.02);
+}
+
+.purple-glow {
+  box-shadow: 0 0 25px rgba(154, 44, 242, 0.5);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #D2C8BC 0%, #9A2CF2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #221B2A;
+}
+::-webkit-scrollbar-thumb {
+  background: #4C0F7A;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #731BB8;
+}
