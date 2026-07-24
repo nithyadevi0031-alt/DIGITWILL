@@ -1,0 +1,17 @@
+{
+  "name": "digital-will-ai",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "install:all": "npm install --workspaces --include-workspace-root",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1",
+    "prettier": "^3.3.3"
+  }
+}
