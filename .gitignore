@@ -3,8 +3,12 @@ node_modules/
 .env.local
 backend/.env
 frontend/.env
+server/.env
+server/uploads/*
+!server/uploads/.gitkeep
 dist/
 build/
 coverage/
 .vscode/
 .DS_Store
+

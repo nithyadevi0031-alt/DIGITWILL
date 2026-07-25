@@ -104,12 +104,39 @@ export function BeneficiaryModal({ isOpen, onClose, onSuccess, currentUser }) {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
               <div className="p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-center space-y-4">
                 <CheckCircle className="w-14 h-14 text-emerald-400 mx-auto" />
-                <h3 className="text-xl font-bold text-emerald-300">Invitation Sent Successfully</h3>
+                <h3 className="text-xl font-bold text-emerald-300">Invitation Created Successfully</h3>
                 <p className="text-sm text-[#D2C8BC] leading-relaxed">
-                  A secure verification email has been sent to <strong className="text-white">{formData.email}</strong>.
+                  {successResult.message || `A secure verification email has been sent to ${formData.email}.`}
                 </p>
+                
+                {successResult.invitationUrl && (
+                  <div className="p-3 bg-[#221B2A] border border-[#9A2CF2]/40 rounded-xl text-left space-y-1.5">
+                    <span className="text-[10px] font-bold text-[#9A2CF2] uppercase tracking-wider block">
+                      🔗 Dev Mode Invitation Link (Expires in 24h)
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        readOnly
+                        value={successResult.invitationUrl}
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono select-all focus:outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(successResult.invitationUrl);
+                          alert('Invitation URL copied to clipboard!');
+                        }}
+                        className="px-3 py-1.5 bg-[#731BB8] hover:bg-[#9A2CF2] text-white text-xs font-bold rounded-lg shrink-0 transition-colors"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <p className="text-xs text-[#8D89AF]">
-                  Please ask the nominee to check their inbox. The invitation link expires in 24 hours.
+                  The nominee can open this link to accept the nomination and set up their password.
                 </p>
               </div>
 
