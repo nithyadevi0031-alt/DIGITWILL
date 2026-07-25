@@ -12,11 +12,16 @@
 
 
 **👥 Team Members**
-Nithyalakshmi (Team Lead)
-Nithya Devi
-Sai Dharshini P.
-Sarjaan S. N.
-S. Vaishnavi
+1.Nithyalakshmi (Team Lead)
+
+2.Nithya Devi
+
+3.Sai Dharshini P.
+
+4.Sarjaan S. N.
+
+5.S. Vaishnavi
+
 🚀 Hackathon Details
 Event	Details
 🏁 Hackathon	Rush Hour Hackathon 2026
