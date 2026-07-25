@@ -12,6 +12,7 @@ export function ViewWillPage({ currentUser }) {
   const [assets, setAssets] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
 
   const token = localStorage.getItem('token');
 
@@ -35,12 +36,42 @@ export function ViewWillPage({ currentUser }) {
         setAssets(aData.assets || []);
         setDocuments(dData.documents || []);
       } catch (err) {
-        console.error(err);
+        // Data fetch error
       }
       setLoading(false);
     };
     fetchAll();
   }, []);
+
+  const handleDownloadPDF = async () => {
+    if (!will?._id) return;
+    setDownloading(true);
+    try {
+      const res = await fetch(`/api/pdf/will/${will._id}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.message || 'Failed to generate PDF.');
+        setDownloading(false);
+        return;
+      }
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Digital_Will_${will.willTitle.replace(/\s+/g, '_')}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Unable to download PDF. Please try again.');
+    }
+    setDownloading(false);
+  };
 
   if (loading) {
     return (
@@ -69,8 +100,8 @@ export function ViewWillPage({ currentUser }) {
       <main className="max-w-4xl mx-auto px-6 py-8 space-y-8">
 
         {/* Page Header */}
-        <div className="glass-card p-6 border border-[#9A2CF2]/30 bg-[#2B103D]/80">
-          <div className="flex items-center gap-3 mb-1">
+        <div className="glass-card p-6 border border-[#9A2CF2]/30 bg-[#2B103D]/80 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex items-center gap-3">
             <div className="p-2.5 bg-gradient-to-br from-[#731BB8] to-[#9A2CF2] rounded-xl text-white">
               <Eye className="w-6 h-6" />
             </div>
@@ -79,6 +110,14 @@ export function ViewWillPage({ currentUser }) {
               <p className="text-xs text-[#8D89AF]">Complete overview of your Digital Will.</p>
             </div>
           </div>
+          <button
+            onClick={handleDownloadPDF}
+            disabled={downloading}
+            className="py-3 px-5 btn-primary text-sm font-bold flex items-center gap-2 shrink-0"
+          >
+            <Download className={`w-4 h-4 ${downloading ? 'animate-spin' : ''}`} />
+            {downloading ? 'Generating PDF...' : 'Download PDF'}
+          </button>
         </div>
 
         {/* Owner Information */}

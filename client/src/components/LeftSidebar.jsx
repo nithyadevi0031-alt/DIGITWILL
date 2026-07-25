@@ -12,7 +12,14 @@ export function LeftSidebar({ activePage, setActivePage, currentUser, onLogout, 
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
-  const navItems = [
+  const isBeneficiary = currentUser?.role === 'beneficiary';
+
+  const navItems = isBeneficiary ? [
+    { id: 'dashboard', label: 'Nominee Dashboard', icon: <Cpu className="w-4 h-4" /> },
+    { id: 'assets', label: 'Assigned Assets', icon: <Landmark className="w-4 h-4" /> },
+    { id: 'documents', label: 'Assigned Documents', icon: <FileUp className="w-4 h-4" /> },
+    { id: 'settings', label: 'Settings & Security', icon: <Settings className="w-4 h-4" /> },
+  ] : [
     { id: 'dashboard', label: 'Dashboard', icon: <Cpu className="w-4 h-4" /> },
     { id: 'create-will', label: 'Create Will', icon: <FileText className="w-4 h-4" /> },
     { id: 'beneficiaries', label: 'Beneficiaries', icon: <UserPlus className="w-4 h-4" /> },

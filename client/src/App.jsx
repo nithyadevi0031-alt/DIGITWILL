@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LeftSidebar } from './components/LeftSidebar';
 import { DashboardPage } from './pages/DashboardPage';
+import { NomineeDashboardPage } from './pages/NomineeDashboardPage';
 import { AcceptInvitationPage } from './pages/AcceptInvitationPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -55,19 +56,16 @@ export default function App() {
   }, [currentUser, currentPage]);
 
   const handleLoginSuccess = (user) => {
+    if (!user || !user.token) return;
     setCurrentUser(user);
     localStorage.setItem('currentUser', JSON.stringify(user));
-    localStorage.setItem('token', user.token || 'session_token_' + Date.now());
+    localStorage.setItem('token', user.token);
     setCurrentPage('dashboard');
   };
 
-  const handleRegisterSuccess = (user) => {
-    // After registration, user must verify email first - do NOT auto-login
-    // This function is kept for compatibility but should not be called from RegisterPage
-    setCurrentUser(user);
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    localStorage.setItem('token', user.token || 'session_token_' + Date.now());
-    setCurrentPage('dashboard');
+  const handleRegisterSuccess = () => {
+    // After registration, user must verify email first — redirect to login
+    setCurrentPage('login');
   };
 
   const handleLogout = async () => {
@@ -152,25 +150,27 @@ export default function App() {
 
   // Authenticated: Persistent Left Sidebar + Content Area
   const renderPage = () => {
+    const isBeneficiary = currentUser?.role === 'beneficiary';
+
     switch (currentPage) {
       case 'dashboard':
-        return <DashboardPage currentUser={currentUser} />;
+        return isBeneficiary ? <NomineeDashboardPage currentUser={currentUser} /> : <DashboardPage currentUser={currentUser} />;
       case 'create-will':
-        return <CreateWillPage currentUser={currentUser} />;
+        return isBeneficiary ? <NomineeDashboardPage currentUser={currentUser} /> : <CreateWillPage currentUser={currentUser} />;
       case 'beneficiaries':
-        return <BeneficiariesPage currentUser={currentUser} />;
+        return isBeneficiary ? <NomineeDashboardPage currentUser={currentUser} /> : <BeneficiariesPage currentUser={currentUser} />;
       case 'assets':
         return <AssetsPage currentUser={currentUser} />;
       case 'documents':
         return <DocumentsPage currentUser={currentUser} />;
       case 'view-will':
-        return <ViewWillPage currentUser={currentUser} />;
+        return isBeneficiary ? <NomineeDashboardPage currentUser={currentUser} /> : <ViewWillPage currentUser={currentUser} />;
       case 'audit-trail':
-        return <AuditTrailPage currentUser={currentUser} />;
+        return isBeneficiary ? <NomineeDashboardPage currentUser={currentUser} /> : <AuditTrailPage currentUser={currentUser} />;
       case 'settings':
         return <SettingsPage currentUser={currentUser} />;
       default:
-        return <DashboardPage currentUser={currentUser} />;
+        return isBeneficiary ? <NomineeDashboardPage currentUser={currentUser} /> : <DashboardPage currentUser={currentUser} />;
     }
   };
 
